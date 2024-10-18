@@ -41,8 +41,10 @@ import com.tanriverdi.lemonade.ui.theme.LemonadeTheme
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Edge to edge (kenarından kenara) görüntüleme etkinleştiriliyor
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        // İçerik ayarlanıyor ve tema uygulanıyor
         setContent {
             LemonadeTheme {
                 LemonadeApp()
@@ -54,40 +56,42 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LemonadeApp() {
-
+// Uygulamanın mevcut adımını yönetmek için state değişkeni
     var currentStep by remember { mutableStateOf(1) }
-
+// Sıkma sayısını tutmak için state değişkeni
     var squeezeCount by remember { mutableStateOf(0) }
 
     Scaffold(
+        // Uygulamanın üst kısmındaki app bar
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = "Lemonade",
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold // Başlık kalın yazılıyor
                     )
                 },
                 colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+
+                    containerColor = MaterialTheme.colorScheme.primaryContainer // App bar arka plan rengi
                 )
             )
         }
-    ) { innerPadding ->
+    ) { innerPadding -> // Scaffold'un içeriği için padding
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.tertiaryContainer),
-            color = MaterialTheme.colorScheme.background
+                .background(MaterialTheme.colorScheme.tertiaryContainer), // Arka plan rengi
+            color = MaterialTheme.colorScheme.background // Yüzey rengi
         ) {
             when (currentStep) {
                 1 -> {
                     LemonTextAndImage(
                         textLabelResourceId = R.string.lemon_select,
                         drawableResourceId = R.drawable.lemon_tree,
-                        contentDescriptionResourceId = R.string.lemon_tree_content_description,
-                        onImageClick = {
+                        contentDescriptionResourceId = R.string.lemon_tree_content_description, // Erişim açıklaması
+                        onImageClick = {  // Resme tıklandığında adım
                             currentStep = 2
                             squeezeCount = (2..4).random()
                         }
